@@ -1,0 +1,2053 @@
+/* =============================================================================
+   KHOKHA REFRIGERATION & WELDING
+   Steel meets cold. Two grounds, joined along a weld seam.
+   ========================================================================== */
+
+/* -----------------------------------------------------------------------------
+   TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  /* Steel side */
+  --steel-900: #07151f;
+  --steel-850: #0a1b26;
+  --steel-800: #0d212e;
+  --steel-700: #15303f;
+  --steel-line: rgba(255, 255, 255, 0.1);
+  --steel-line-hi: rgba(255, 255, 255, 0.22);
+
+  /* Cold side */
+  --blue: #0b8fd8; /* accent: rules, ticks, large display type (3:1) */
+  --blue-deep: #0a7ab0; /* surfaces carrying white body text (4.5:1) */
+  --blue-text: #0a6f9e; /* small blue text on light grounds (4.5:1) */
+  --ice: #2fc7ff;
+  --frost: #edf6fb;
+  --frost-deep: #d6e7f1;
+  --frost-line: #c3dced;
+
+  /* Heat */
+  --orange: #ff7a21;
+  --orange-hot: #ff9148;
+
+  /* Paper */
+  --cream: #f4f1e9;
+  --cream-line: #ddd7c7;
+  --white: #ffffff;
+
+  /* Ink */
+  --ink: #07151f;
+  --ink-soft: #46565f;
+  --ink-mute: #5a6871;
+  --on-dark: #ffffff;
+  --on-dark-soft: #a7b9c4;
+  --on-dark-mute: #788b97;
+
+  /* WhatsApp — conversion buttons only, never decoration. Deepened from the
+     brand green so white button text clears 4.5:1. */
+  --wa: #107a3e;
+  --wa-hot: #0b6634;
+
+  /* Type */
+  --display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Space */
+  --gutter: clamp(1.25rem, 5vw, 4.5rem);
+  --shell: 1320px;
+  --pad-y: clamp(4.5rem, 9vw, 8.5rem);
+
+  --bar-h: 62px; /* sticky mobile action bar */
+  --nav-h: 74px; /* navigation bar; the hero and menu panel both key off this */
+}
+
+/* -----------------------------------------------------------------------------
+   BASE
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 1rem);
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+ul,
+ol,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ice);
+  outline-offset: 3px;
+}
+
+.skip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  background: var(--orange);
+  color: var(--steel-900);
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  transform: translateY(-120%);
+  transition: transform 0.15s ease;
+}
+
+.skip:focus {
+  transform: none;
+}
+
+/* -----------------------------------------------------------------------------
+   LAYOUT
+   -------------------------------------------------------------------------- */
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--pad-y);
+  position: relative;
+}
+
+main {
+  display: block;
+}
+
+/* -----------------------------------------------------------------------------
+   TYPOGRAPHY
+   -------------------------------------------------------------------------- */
+.display {
+  font-family: var(--display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(2.5rem, 5.6vw, 4.4rem);
+  line-height: 0.86;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.display__line {
+  display: block;
+}
+
+.display--xl {
+  font-size: clamp(2.9rem, 7.4vw, 5.6rem);
+}
+
+.display--hero {
+  font-size: clamp(3.3rem, 10vw, 7.6rem);
+  line-height: 0.82;
+  letter-spacing: -0.025em;
+}
+
+/* In a two-part heading the second line carries the accent, so the two halves
+   read as a pair rather than as one highlighted word. A single-line heading
+   stays in ink — it is a heading, not a label. */
+.display--cold .display__line:last-child:not(:first-child) {
+  color: var(--blue);
+}
+
+.lede {
+  font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 54ch;
+  margin-top: 1.5rem;
+}
+
+.sectionHead {
+  display: grid;
+  gap: 1.25rem 4rem;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.sectionHead__body {
+  color: var(--ink-mute);
+  max-width: 46ch;
+  font-size: 1.0625rem;
+}
+
+@media (min-width: 900px) {
+  .sectionHead {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: end;
+  }
+}
+
+.sectionHead--dark .sectionHead__body {
+  color: var(--on-dark-soft);
+}
+
+/* Small standing labels. Used on four sections only, where they name the trade
+   rather than decorate the heading. */
+.weld__label,
+.fridge__label,
+.about__label {
+  font-family: var(--display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+}
+
+.weld__label::before,
+.fridge__label::before,
+.about__label::before {
+  content: '';
+  width: 2.25rem;
+  height: 2px;
+  background: currentColor;
+  flex: none;
+}
+
+.weld__label {
+  color: var(--orange);
+}
+
+.fridge__label {
+  color: var(--blue-text);
+}
+
+.about__label {
+  color: var(--ink-mute);
+}
+
+/* -----------------------------------------------------------------------------
+   WORDMARK
+   -------------------------------------------------------------------------- */
+.wordmark {
+  display: grid;
+  line-height: 1;
+}
+
+.wordmark__name {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.wordmark__suffix {
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-top: 0.3rem;
+}
+
+.wordmark--light .wordmark__suffix {
+  color: var(--on-dark-mute);
+}
+
+/* -----------------------------------------------------------------------------
+   BUTTONS
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 52px;
+  padding: 0.85rem 1.5rem;
+  font-family: var(--body);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  text-align: center;
+}
+
+/* Dark type on orange: white on #FF7A21 is only 2.6:1. */
+.btn--weld {
+  background: var(--orange);
+  color: var(--steel-900);
+}
+
+.btn--weld:hover {
+  background: var(--orange-hot);
+}
+
+.btn--cold {
+  background: var(--blue-deep);
+  color: #fff;
+}
+
+.btn--cold:hover {
+  background: var(--ice);
+  color: var(--steel-900);
+}
+
+.btn--wa {
+  background: var(--wa);
+  color: #fff;
+}
+
+.btn--wa:hover {
+  background: var(--wa-hot);
+}
+
+.btn--ghost {
+  border-color: rgba(7, 21, 31, 0.25);
+  color: var(--ink);
+}
+
+.btn--ghost:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+
+.btn--ghostLight {
+  border-color: var(--steel-line-hi);
+  color: #fff;
+}
+
+.btn--ghostLight:hover {
+  border-color: #fff;
+  background: #fff;
+  color: var(--steel-900);
+}
+
+.btn--link {
+  padding-inline: 0.5rem;
+  min-height: 48px;
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: var(--steel-line-hi);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+
+.btn--link:hover {
+  text-decoration-color: var(--ice);
+}
+
+.btn--onBlue {
+  background: #fff;
+  color: var(--steel-900);
+}
+
+.btn--onBlue:hover {
+  background: var(--steel-900);
+  color: #fff;
+}
+
+
+/* -----------------------------------------------------------------------------
+   PHOTO FRAME — real photo, or a labelled slot naming the shot that belongs
+   -------------------------------------------------------------------------- */
+.frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--steel-800);
+}
+
+.frame--cold {
+  background: var(--frost-deep);
+}
+
+.frame--fill {
+  position: absolute;
+  inset: 0;
+}
+
+.frame__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Cut-outs sit on white and must never be cropped. The inset keeps the
+   product off the tile edge so the set reads as one catalogue. */
+.frame--contain {
+  background: var(--white);
+}
+
+.frame--contain .frame__img {
+  object-fit: contain;
+  padding: 7%;
+  box-sizing: border-box;
+}
+
+.frame__slot {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+}
+
+.frame__hatch {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.045) 0 1px,
+    transparent 1px 11px
+  );
+}
+
+.frame--cold .frame__hatch {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(7, 21, 31, 0.055) 0 1px,
+    transparent 1px 11px
+  );
+}
+
+.frame__slotBody {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.frame__slotIcon {
+  color: var(--orange);
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--steel-line-hi);
+}
+
+.frame--cold .frame__slotIcon {
+  color: var(--blue);
+  border-color: var(--frost-line);
+}
+
+.frame__slotLabel {
+  font-family: var(--display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1.15;
+  max-width: 14ch;
+}
+
+.frame--cold .frame__slotLabel {
+  color: var(--steel-900);
+}
+
+.frame__slotHint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-dark-mute);
+}
+
+.frame--cold .frame__slotHint {
+  color: var(--ink-soft);
+}
+
+/* -----------------------------------------------------------------------------
+   NAVBAR
+   -------------------------------------------------------------------------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: transparent;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+  border-bottom: 1px solid transparent;
+}
+
+/* Over the hero the bar is transparent, so it carries its own scrim — without
+   it the links on the right sit on the light fridge panel and disappear. */
+.nav::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(7, 21, 31, 0.92) 0%, rgba(7, 21, 31, 0) 100%);
+  transition: opacity 0.25s ease;
+}
+
+.nav--lifted,
+.nav--open {
+  background: var(--steel-900);
+  border-bottom-color: var(--steel-line);
+}
+
+.nav--lifted::after,
+.nav--open::after {
+  opacity: 0;
+}
+
+.nav__inner {
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding: 0.75rem var(--gutter);
+  min-height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+  color: #fff;
+}
+
+.nav__brand {
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+}
+
+.nav__logo {
+  height: 46px;
+  width: auto;
+}
+
+.nav .wordmark__suffix {
+  color: var(--on-dark-mute);
+}
+
+.nav__links {
+  display: none;
+  gap: clamp(1rem, 2vw, 1.9rem);
+}
+
+.nav__link {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--on-dark-soft);
+  padding-block: 0.4rem;
+  border-bottom: 2px solid transparent;
+  transition: color 0.18s ease, border-color 0.18s ease;
+  white-space: nowrap;
+}
+
+.nav__link:hover {
+  color: #fff;
+}
+
+.nav__link[aria-current='true'] {
+  color: #fff;
+  border-bottom-color: var(--orange);
+}
+
+.nav__cta {
+  display: none;
+  min-height: 46px;
+  padding: 0.6rem 1.15rem;
+}
+
+.nav__toggle {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-right: -0.5rem;
+  color: #fff;
+}
+
+/* Fixed, not in flow: an in-flow panel pushes the page down by its own height,
+   and every anchor jump made from it then lands that far off. */
+.nav__panel {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--steel-900);
+  border-top: 1px solid var(--steel-line);
+  padding: 1.25rem var(--gutter) 2rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.nav__panel[hidden] {
+  display: none;
+}
+
+.nav__panelLinks {
+  display: grid;
+}
+
+.nav__panelLink {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: var(--display);
+  font-size: 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: #fff;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--steel-line);
+}
+
+.nav__panelIndex {
+  font-family: var(--body);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+}
+
+.nav__panelActions {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 1080px) {
+  .nav__links,
+  .nav__cta {
+    display: flex;
+  }
+
+  .nav__toggle,
+  .nav__panel {
+    display: none;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   HERO — the welding clip, full bleed, no chrome over it
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  isolation: isolate;
+  background: var(--steel-900);
+  color: #fff;
+  margin-top: calc((var(--nav-h) + 1.5rem) * -1);
+  padding-top: calc(var(--nav-h) + 1.5rem);
+  min-height: 82svh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* The poster sits under the video so there is never an empty frame, and it is
+   what remains if autoplay is refused or motion is reduced. */
+.hero__poster,
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 48% 50%;
+}
+
+.hero__video {
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.hero__video.is-ready {
+  opacity: 1;
+}
+
+/* Dark from the lower left where the words are, clearing towards the arc. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      76deg,
+      rgba(7, 21, 31, 0.93) 0%,
+      rgba(7, 21, 31, 0.82) 32%,
+      rgba(7, 21, 31, 0.5) 58%,
+      rgba(7, 21, 31, 0.3) 100%
+    ),
+    linear-gradient(180deg, rgba(7, 21, 31, 0.72) 0%, rgba(7, 21, 31, 0) 36%);
+}
+
+.hero__copy {
+  position: relative;
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding: clamp(3rem, 12vh, 7rem) var(--gutter) clamp(2.75rem, 7vh, 4.5rem);
+}
+
+.hero__label {
+  font-family: var(--display);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ice);
+  margin-bottom: 1.1rem;
+}
+
+.hero__body {
+  color: #dbe5ec;
+  font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+  line-height: 1.6;
+  max-width: 46ch;
+  margin-top: 1.4rem;
+  text-shadow: 0 1px 12px rgba(7, 21, 31, 0.55);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 2.1rem;
+}
+
+@media (min-width: 860px) {
+  .hero {
+    min-height: min(92svh, 900px);
+  }
+
+  .hero__copy > * {
+    max-width: 70%;
+  }
+
+  /* Sized so each headline line still sets on one line at every width from
+     860px up — the two halves only read as a pair unbroken. */
+  .display--hero {
+    font-size: clamp(3.3rem, 5.5vw, 5.6rem);
+  }
+
+  .hero__body {
+    max-width: min(46ch, 44%);
+  }
+
+  .hero__poster,
+  .hero__video {
+    object-position: 56% 50%;
+  }
+}
+
+/* One quiet entrance, on the words only. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__copy > * {
+    animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .hero__label { animation-delay: 0.05s; }
+  .hero h1 { animation-delay: 0.14s; }
+  .hero__body { animation-delay: 0.26s; }
+  .hero__actions { animation-delay: 0.36s; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(0.7rem); }
+  to { opacity: 1; transform: none; }
+}
+
+/* -----------------------------------------------------------------------------
+   SEAM — section divider reusing the hero motif
+   -------------------------------------------------------------------------- */
+.seam {
+  position: relative;
+  height: clamp(54px, 7vw, 120px);
+  overflow: hidden;
+}
+
+.seam__upper {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.seam__bead {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.seam__beadLine {
+  stroke-width: 2;
+}
+
+.seam__beadGlow {
+  stroke-width: 7;
+  opacity: 0.22;
+}
+
+/* Steel above, cold below */
+.seam--steelToCold {
+  background: var(--frost);
+}
+
+.seam--steelToCold .seam__upper {
+  background: var(--steel-900);
+}
+
+.seam--steelToCold .seam__beadLine {
+  stroke: var(--ice);
+}
+
+.seam--steelToCold .seam__beadGlow {
+  stroke: var(--orange);
+}
+
+/* Cold above, steel below */
+.seam--coldToSteel {
+  background: var(--steel-900);
+}
+
+.seam--coldToSteel .seam__upper {
+  background: var(--frost);
+}
+
+.seam--coldToSteel .seam__beadLine {
+  stroke: var(--orange);
+}
+
+.seam--coldToSteel .seam__beadGlow {
+  stroke: var(--ice);
+}
+
+/* -----------------------------------------------------------------------------
+   SERVICES
+   -------------------------------------------------------------------------- */
+.section--services {
+  background: var(--cream);
+}
+
+.svc {
+  display: grid;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  gap: 1px;
+  background: var(--cream-line);
+  /* The 1px gap is painted by this background — clip it so it cannot show
+     through the container's own side padding. */
+  background-clip: content-box;
+}
+
+.svc__slab {
+  display: grid;
+}
+
+.svc__slab--steel {
+  background: var(--steel-900);
+  color: #fff;
+}
+
+.svc__slab--cold {
+  background: var(--white);
+  color: var(--ink);
+}
+
+.svc__photo {
+  aspect-ratio: 16 / 10;
+}
+
+.svc__body {
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.svc__number {
+  font-family: var(--display);
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--orange);
+  margin-bottom: 0.75rem;
+}
+
+.svc__slab--cold .svc__number {
+  color: var(--blue);
+}
+
+.svc__title {
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+}
+
+.svc__summary {
+  margin-top: 0.9rem;
+  color: var(--on-dark-soft);
+  max-width: 38ch;
+}
+
+.svc__slab--cold .svc__summary {
+  color: var(--ink-soft);
+}
+
+.svc__list {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1.6rem 0 2rem;
+  width: 100%;
+}
+
+.svc__list li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--steel-line);
+}
+
+.svc__slab--cold .svc__list li {
+  border-bottom-color: var(--cream-line);
+}
+
+.svc__list svg {
+  color: var(--orange);
+  flex: none;
+}
+
+.svc__slab--cold .svc__list svg {
+  color: var(--blue);
+}
+
+.svc__cta {
+  margin-top: auto;
+  width: 100%;
+}
+
+@media (min-width: 720px) {
+  .svc__cta {
+    width: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .svc {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   WELDING FEATURE
+   -------------------------------------------------------------------------- */
+.section--welding {
+  background: var(--steel-900);
+  color: #fff;
+  /* A faint heat gradient rising from the base of the section. */
+  background-image: radial-gradient(
+    120% 80% at 15% 110%,
+    rgba(255, 122, 33, 0.16) 0%,
+    rgba(255, 122, 33, 0) 60%
+  );
+}
+
+.weld__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.weld__body2 {
+  color: var(--on-dark-mute);
+  margin-top: 1.1rem;
+  max-width: 48ch;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--steel-line);
+}
+
+.weld__body .lede {
+  color: var(--on-dark-soft);
+}
+
+.weld__body .btn {
+  margin-top: 2rem;
+}
+
+.weld__photo {
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--steel-line);
+}
+
+.weld__strip {
+  display: grid;
+  gap: 1px;
+  background: var(--steel-line);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.weld__stripItem {
+  aspect-ratio: 4 / 3;
+}
+
+@media (min-width: 640px) {
+  .weld__strip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .weld__grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   MOBILE FRIDGE FEATURE
+   -------------------------------------------------------------------------- */
+.section--fridge {
+  background: var(--frost);
+}
+
+.fridge__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.fridge__photo {
+  aspect-ratio: 5 / 6;
+  border: 1px solid var(--frost-line);
+}
+
+.fridge__points {
+  display: grid;
+  gap: 1px;
+  background: var(--frost-line);
+  margin: 2.25rem 0;
+  border: 1px solid var(--frost-line);
+}
+
+.fridge__point {
+  background: var(--frost);
+  padding: 1.1rem 1.25rem;
+}
+
+.fridge__point dt {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+}
+
+/* Tick drawn in CSS so the four points stay a list, not an icon grid.
+   Aligned to the first line, not the block, so two-line titles still read. */
+.fridge__point dt::before {
+  content: '';
+  width: 0.55rem;
+  height: 0.95rem;
+  margin-top: 0.1rem;
+  border: solid var(--blue);
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(40deg);
+  flex: none;
+}
+
+.fridge__point dd {
+  color: var(--ink-mute);
+  font-size: 0.9375rem;
+  margin-top: 0.3rem;
+}
+
+@media (min-width: 560px) {
+  .fridge__points {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 900px) {
+  .fridge__grid {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   MOBILE FRIDGE GALLERY
+   -------------------------------------------------------------------------- */
+.section--fridgeGallery {
+  background: var(--frost);
+  padding-top: 0;
+}
+
+.fgal__grid {
+  display: grid;
+  gap: 1px;
+  background: var(--frost-line);
+  border: 1px solid var(--frost-line);
+}
+
+.fgal__main,
+.fgal__detail,
+.fgal__use {
+  position: relative;
+  min-height: 220px;
+}
+
+.fgal__main {
+  min-height: 300px;
+}
+
+.fgal__cta {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  background: var(--blue-deep);
+  color: #fff;
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.fgal__ctaTitle {
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.92;
+}
+
+.fgal__ctaBody {
+  color: #fff;
+  margin-top: 0.4rem;
+  max-width: 42ch;
+}
+
+@media (min-width: 760px) {
+  .fgal__grid {
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .fgal__main {
+    grid-row: span 2;
+    min-height: 460px;
+  }
+
+  .fgal__cta {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   PROJECT GALLERY
+   -------------------------------------------------------------------------- */
+.section--gallery {
+  background: var(--steel-900);
+  color: #fff;
+}
+
+.gal__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.gal__filter {
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--on-dark-soft);
+  border: 1px solid var(--steel-line);
+  transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.gal__filter:hover {
+  color: #fff;
+  border-color: var(--steel-line-hi);
+}
+
+.gal__filter[aria-pressed='true'] {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: var(--steel-900);
+}
+
+/* True column flow rather than grid spans: the client will keep adding photos,
+   and columns re-pack without ever leaving a hole in the layout. `size` sets
+   the shape of each shot — portrait, landscape or square-ish. */
+.gal__grid {
+  columns: 1;
+  column-gap: 1rem;
+}
+
+.gal__item {
+  position: relative;
+  margin: 0 0 1rem;
+  overflow: hidden;
+  background: var(--steel-800);
+  break-inside: avoid;
+  aspect-ratio: 4 / 3;
+}
+
+.gal__item--tall {
+  aspect-ratio: 3 / 4;
+}
+
+.gal__item--wide {
+  aspect-ratio: 16 / 10;
+}
+
+.gal__caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  font-family: var(--display);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(7, 21, 31, 0.82);
+  padding: 0.45rem 0.8rem;
+}
+
+/* Captions only earn their place once there is a photograph behind them;
+   an empty slot already says what it is. */
+.gal__item:has(.frame[data-empty='true']) .gal__caption {
+  display: none;
+}
+
+.gal__foot {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+  align-items: center;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+  border-top: 1px solid var(--steel-line);
+}
+
+.gal__foot p {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+@media (min-width: 600px) {
+  .gal__grid {
+    columns: 2;
+  }
+
+  .gal__foot {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+@media (min-width: 1000px) {
+  .gal__grid {
+    columns: 3;
+    column-gap: 1.25rem;
+  }
+
+  .gal__item {
+    margin-bottom: 1.25rem;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   ABOUT
+   -------------------------------------------------------------------------- */
+.section--about {
+  background: var(--cream);
+}
+
+.about__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.about__text {
+  margin-top: 1.1rem;
+  color: var(--ink-soft);
+  max-width: 54ch;
+}
+
+.about__photo {
+  aspect-ratio: 4 / 3;
+}
+
+@media (min-width: 900px) {
+  .about__grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+
+  .about__photo {
+    aspect-ratio: 3 / 4;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   WHY CHOOSE KHOKHA — a spec sheet, not a card deck
+   -------------------------------------------------------------------------- */
+.section--why {
+  background: var(--white);
+}
+
+.why__list {
+  border-top: 1px solid var(--cream-line);
+}
+
+.why__row {
+  display: grid;
+  gap: 0.35rem 3rem;
+  padding: clamp(1.4rem, 3vw, 2.1rem) 0;
+  border-bottom: 1px solid var(--cream-line);
+}
+
+.why__term {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -0.005em;
+}
+
+.why__def {
+  color: var(--ink-soft);
+  max-width: 48ch;
+}
+
+@media (min-width: 760px) {
+  .why__row {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: baseline;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   HOW IT WORKS
+   -------------------------------------------------------------------------- */
+.section--process {
+  background: var(--steel-900);
+  color: #fff;
+}
+
+.step__list {
+  display: grid;
+  gap: 1px;
+  background: var(--steel-line);
+  border-block: 1px solid var(--steel-line);
+}
+
+.step {
+  background: var(--steel-900);
+  padding: clamp(1.6rem, 3.5vw, 2.5rem);
+  position: relative;
+}
+
+.step__number {
+  font-family: var(--display);
+  font-size: 3.25rem;
+  font-weight: 700;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--orange);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.step__title {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 2.6vw, 1.95rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.step__text {
+  color: var(--on-dark-soft);
+  margin-top: 0.7rem;
+  font-size: 0.9375rem;
+  max-width: 40ch;
+}
+
+.step__cta {
+  margin-top: clamp(2rem, 4vw, 2.75rem);
+}
+
+@media (min-width: 820px) {
+  .step__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   FAQ
+   -------------------------------------------------------------------------- */
+.section--faq {
+  background: var(--frost);
+}
+
+.faq__grid {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 4rem);
+  align-items: start;
+}
+
+.faq__items {
+  border-top: 1px solid var(--frost-line);
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--frost-line);
+}
+
+.faq__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.15rem 0;
+  cursor: pointer;
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.1;
+  list-style: none;
+  min-height: 56px;
+}
+
+.faq__q::-webkit-details-marker {
+  display: none;
+}
+
+.faq__chev {
+  flex: none;
+  color: var(--blue);
+  transition: transform 0.2s ease;
+}
+
+.faq__item[open] .faq__chev {
+  transform: rotate(180deg);
+}
+
+.faq__a {
+  padding-bottom: 1.3rem;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+
+@media (min-width: 900px) {
+  .faq__grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+
+  .faq__head {
+    position: sticky;
+    top: calc(var(--nav-h) + 2.25rem);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   CONTACT & QUOTE FORM
+   -------------------------------------------------------------------------- */
+.section--contact {
+  background: var(--steel-900);
+  color: #fff;
+  padding-bottom: calc(var(--pad-y) + var(--bar-h));
+}
+
+.contact__grid {
+  display: grid;
+  gap: clamp(2.25rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.quote .lede {
+  color: var(--on-dark-soft);
+}
+
+.quote__form {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: 2.25rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.field label,
+.field__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--on-dark-soft);
+}
+
+.field__opt {
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--on-dark-mute);
+}
+
+.field input,
+.field select,
+.field textarea {
+  font: inherit;
+  font-size: 1rem;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.8rem 0.95rem;
+  color: #fff;
+  background: var(--steel-800);
+  border: 1px solid var(--steel-line);
+  border-radius: 0;
+  transition: border-color 0.18s ease, background-color 0.18s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field textarea {
+  min-height: 124px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: var(--steel-line-hi);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--ice);
+  background: var(--steel-850);
+  outline: none;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--on-dark-mute);
+}
+
+.field [aria-invalid='true'] {
+  border-color: var(--orange);
+}
+
+.field__select {
+  position: relative;
+}
+
+/* Chevron for the select, drawn with borders so no extra asset is needed. */
+.field__select::after {
+  content: '';
+  position: absolute;
+  right: 1.1rem;
+  top: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid var(--ice);
+  border-bottom: 2px solid var(--ice);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+.field select option {
+  color: #fff;
+  background: var(--steel-800);
+}
+
+.field__error {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--orange-hot);
+}
+
+.field--full {
+  grid-column: 1 / -1;
+}
+
+.upload {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 56px;
+  padding: 0.9rem 1.1rem;
+  border: 1px dashed var(--steel-line-hi);
+  color: var(--on-dark-soft);
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease;
+}
+
+.upload:hover {
+  border-color: var(--ice);
+  color: #fff;
+}
+
+/* Type selector included so the shared `.field input` sizing cannot win here. */
+input.upload__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  clip-path: inset(50%);
+}
+
+.upload__list {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+}
+
+.upload__list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--on-dark-soft);
+  background: var(--steel-800);
+  padding: 0.45rem 0.7rem;
+}
+
+.upload__list button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: var(--on-dark-mute);
+  flex: none;
+}
+
+.upload__list button:hover {
+  color: var(--orange);
+}
+
+.upload__note {
+  font-size: 0.8125rem;
+  color: var(--on-dark-mute);
+  margin-top: 0.5rem;
+}
+
+.quote__submit {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.5rem;
+}
+
+.quote__notice {
+  font-size: 0.9375rem;
+  color: var(--ice);
+  border-left: 2px solid var(--ice);
+  padding-left: 0.9rem;
+}
+
+.contact__side {
+  background: var(--steel-800);
+  border: 1px solid var(--steel-line);
+  padding: clamp(1.5rem, 3.5vw, 2.25rem);
+}
+
+.contact__sideTitle {
+  font-family: var(--display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.contact__list {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1.5rem;
+}
+
+.contact__list li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 0.9375rem;
+  color: var(--on-dark-soft);
+}
+
+.contact__list svg {
+  color: var(--ice);
+  flex: none;
+}
+
+.contact__list a:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contact__area {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--on-dark-mute);
+}
+
+.contact__sideCta {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--steel-line);
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+}
+
+.contact__sideCta p {
+  font-family: var(--display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+
+@media (min-width: 620px) {
+  .quote__form {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem 1.25rem;
+  }
+}
+
+@media (min-width: 980px) {
+  .contact__grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   FOOTER
+   -------------------------------------------------------------------------- */
+.foot {
+  background: var(--steel-850);
+  color: var(--on-dark-soft);
+  border-top: 1px solid var(--steel-line);
+  padding-bottom: var(--bar-h);
+}
+
+.foot__grid {
+  display: grid;
+  gap: 2.25rem;
+  padding-block: clamp(2.75rem, 6vw, 4.5rem);
+}
+
+.foot .wordmark__name {
+  color: #fff;
+}
+
+.foot__logo {
+  height: 48px;
+  width: auto;
+}
+
+.foot__blurb {
+  margin-top: 1.1rem;
+  max-width: 34ch;
+  font-size: 0.9375rem;
+}
+
+.foot__colTitle {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--on-dark-mute);
+  margin-bottom: 1rem;
+}
+
+.foot__services ul,
+.foot__nav ul,
+.foot__contact ul {
+  display: grid;
+  gap: 0.6rem;
+  font-size: 0.9375rem;
+}
+
+.foot__nav a:hover,
+.foot__contact a:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.foot__contact .foot__social {
+  margin-top: 1.25rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.foot__legal {
+  display: grid;
+  gap: 0.5rem;
+  padding-block: 1.4rem;
+  border-top: 1px solid var(--steel-line);
+  font-size: 0.75rem;
+  color: var(--on-dark-mute);
+}
+
+@media (min-width: 760px) {
+  .foot__grid {
+    grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 0.9fr));
+    gap: 2.5rem;
+  }
+
+  /* Clearance so the floating WhatsApp button never covers the copyright. */
+  .foot__legal {
+    padding-bottom: 5.5rem;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   FLOATING WHATSAPP (tablet and up) + STICKY ACTION BAR (phones)
+   -------------------------------------------------------------------------- */
+.fab {
+  display: none;
+  position: fixed;
+  right: clamp(1rem, 2.5vw, 2rem);
+  bottom: clamp(1rem, 2.5vw, 2rem);
+  z-index: 70;
+  align-items: center;
+  gap: 0.65rem;
+  background: var(--wa);
+  color: #fff;
+  padding: 0.9rem 1.25rem;
+  box-shadow: 0 10px 30px rgba(7, 21, 31, 0.35);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(1rem);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.18s ease;
+}
+
+.fab--shown {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.fab:hover {
+  background: var(--wa-hot);
+}
+
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: var(--bar-h);
+  background: var(--steel-900);
+  border-top: 1px solid var(--steel-line);
+  transform: translateY(100%);
+  transition: transform 0.25s ease;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bar--shown {
+  transform: none;
+}
+
+.bar__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.bar__btn--wa {
+  background: var(--wa);
+}
+
+.bar__btn--call {
+  background: var(--steel-900);
+  border-left: 1px solid var(--steel-line);
+}
+
+@media (min-width: 768px) {
+  .fab {
+    display: inline-flex;
+  }
+
+  .bar {
+    display: none;
+  }
+
+  .foot,
+  .section--contact {
+    padding-bottom: 0;
+  }
+
+  .section--contact {
+    padding-bottom: var(--pad-y);
+  }
+}
+
+@media (max-width: 420px) {
+  .fab__text {
+    display: none;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   DEV-ONLY SETUP NOTICE
+   -------------------------------------------------------------------------- */
+.setup {
+  position: fixed;
+  left: 1rem;
+  bottom: calc(var(--bar-h) + 1rem);
+  z-index: 90;
+  max-width: 24rem;
+  background: var(--cream);
+  color: var(--ink);
+  border-left: 4px solid var(--orange);
+  padding: 0.9rem 2.25rem 0.9rem 1rem;
+  box-shadow: 0 10px 30px rgba(7, 21, 31, 0.3);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.setup__close {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: var(--ink-mute);
+}
+
+.setup__title {
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.setup__body {
+  color: var(--ink-soft);
+}
+
+.setup code {
+  font-size: 0.75rem;
+  background: rgba(7, 21, 31, 0.08);
+  padding: 0.1rem 0.3rem;
+}
+
+@media (min-width: 768px) {
+  .setup {
+    bottom: 1rem;
+    left: 1rem;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   REDUCED MOTION
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Khokha">
+  <rect width="64" height="64" fill="#07151F"/>
+  <!-- The seam: heat on the left, cold on the right -->
+  <path d="M38 8 L30 56" stroke="#2FC7FF" stroke-width="3"/>
+  <!-- Abstract K built from a weld bead -->
+  <rect x="10" y="12" width="7" height="40" fill="#F4F1E9"/>
+  <path d="M19 32 L28 12 h8 L26 32 Z" fill="#FF7A21"/>
+  <path d="M19 32 L28 52 h8 L26 32 Z" fill="#F4F1E9"/>
+  <rect x="44" y="20" width="12" height="4" fill="#0B8FD8"/>
+  <rect x="44" y="30" width="12" height="4" fill="#0B8FD8"/>
+  <rect x="44" y="40" width="12" height="4" fill="#0B8FD8"/>
+</svg>
