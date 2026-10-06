@@ -1148,15 +1148,17 @@ main {
   border: 1px solid var(--frost-line);
 }
 
+/* Aspect ratios rather than min-heights: these reserve their space before the
+   photos load, so nothing below them shifts while you are scrolling to it. */
 .fgal__main,
 .fgal__detail,
 .fgal__use {
   position: relative;
-  min-height: 220px;
+  aspect-ratio: 4 / 3;
 }
 
 .fgal__main {
-  min-height: 300px;
+  aspect-ratio: 5 / 4;
 }
 
 .fgal__cta {
@@ -1184,14 +1186,24 @@ main {
 }
 
 @media (min-width: 760px) {
+  /* The grid carries the shape; the tiles simply fill their cells. That keeps
+     the space reserved before the photos load and leaves no gaps. */
   .fgal__grid {
     grid-template-columns: 1.5fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    aspect-ratio: 16 / 10;
   }
 
   .fgal__main {
     grid-row: span 2;
-    min-height: 460px;
+  }
+
+  .fgal__main,
+  .fgal__detail,
+  .fgal__use {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 0;
   }
 
   .fgal__cta {

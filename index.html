@@ -10,13 +10,13 @@
       content="Khokha Refrigeration &amp; Welding — custom welding, metal repairs, fabrication and steelwork, plus mobile fridges for events, functions and businesses. Send photos on WhatsApp for a quote."
     />
     <meta name="theme-color" content="#07151F" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
 
-    <!-- Add once the domain is known, e.g.
-         <link rel="canonical" href="https://khokha.co.za/" /> -->
-
-    <!-- Open Graph / social sharing.
-         Drop a 1200x630 image at public/images/og-cover.jpg to enable previews. -->
+    <!-- Link previews (WhatsApp, Facebook, X).
+         og:image must be an absolute url or WhatsApp shows no preview at all —
+         it is built from VITE_SITE_URL in .env at build time. -->
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
     <meta property="og:site_name" content="Khokha Refrigeration &amp; Welding" />
     <meta
       property="og:title"
@@ -26,9 +26,19 @@
       property="og:description"
       content="Custom welding, metal repairs and fabrication, plus mobile fridges for events, functions and businesses."
     />
-    <meta property="og:image" content="/images/og-cover.jpg" />
-    <meta property="og:image:alt" content="Welding work and a mobile fridge unit from Khokha" />
+    <meta property="og:image" content="%VITE_SITE_URL%/images/og-cover.jpg" />
+    <meta property="og:image:secure_url" content="%VITE_SITE_URL%/images/og-cover.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Khokha welding with sparks flying — welding, fabrication and mobile fridges"
+    />
+    <meta property="og:locale" content="en_ZA" />
+
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/images/og-cover.jpg" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />

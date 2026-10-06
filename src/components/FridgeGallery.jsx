@@ -21,7 +21,7 @@ export default function FridgeGallery() {
             label={main.label}
             tone="cold"
             fit={main.fit}
-            className="fgal__main frame--fill"
+            className="fgal__main"
           />
           <Frame
             src={detail.src}
@@ -29,7 +29,7 @@ export default function FridgeGallery() {
             label={detail.label}
             tone="cold"
             fit={detail.fit}
-            className="fgal__detail frame--fill"
+            className="fgal__detail"
           />
           <Frame
             src={useCase.src}
@@ -37,7 +37,7 @@ export default function FridgeGallery() {
             label={useCase.label}
             tone="cold"
             fit={useCase.fit}
-            className="fgal__use frame--fill"
+            className="fgal__use"
           />
         </div>
 
